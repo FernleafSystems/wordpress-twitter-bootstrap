@@ -21,9 +21,9 @@ if ( !class_exists('ICWP_WPTB_FeatureHandler_Css') ):
 
 class ICWP_WPTB_FeatureHandler_Css extends ICWP_WPTB_FeatureHandler_Base {
 
-	const TwitterVersion			= '3.2.0'; //should reflect the Bootstrap version folder name
+	const TwitterVersion			= '3.3.4'; //should reflect the Bootstrap version folder name
 	const TwitterVersionLegacy		= '2.3.2'; //should reflect the Bootstrap version folder name
-	const NormalizeVersion			= '3.0.1';
+	const NormalizeVersion			= '3.0.2';
 	const YUI3Version				= '3.10.0';
 
 	/**

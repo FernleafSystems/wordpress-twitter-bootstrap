@@ -96,8 +96,9 @@ class ICWP_WPTB_CssProcessor_V1 extends ICWP_WPTB_BaseProcessor {
 		if ( is_admin() && $this->getIsOption( 'inc_bootstrap_css_in_editor', 'Y' ) ) {
 			$aMceCss = array_map( 'trim', explode( ',', $sMce_Css ) );
 			array_unshift( $aMceCss, $this->getBootstrapUrl( 'css/bootstrap.min.css' ) );
-			return implode( ',', $aMceCss );
+			$sMce_Css = implode( ',', $aMceCss );
 		}
+		return $sMce_Css;
 	}
 
 	public function enqueueBootstrapAdminCss() {
@@ -169,7 +170,7 @@ class ICWP_WPTB_CssProcessor_V1 extends ICWP_WPTB_BaseProcessor {
 	}
 
 	/**
-	 * @return multitype:|Ambigous <multitype:string , Ambigous, boolean, multitype:>
+	 * @return array
 	 */
 	protected function getCssIncludeUrls() {
 
