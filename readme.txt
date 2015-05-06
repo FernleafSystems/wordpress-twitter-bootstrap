@@ -210,6 +210,12 @@ you should be aware of before you upgrade!
 you'll need to back it up before you upgrade your Bootstrap plugin.
 * Allow for a free entry LESS section for users to add their own completely custom variables.
 
+= 3.3.4-0 =
+
+* UPDATED:	Twitter Bootstrap library to v3.3.4
+* UPDATED:	Normalize to v3.0.2
+* FIX:      Small fixes to code.
+
 = 3.2.0-4 =
 
 * FIXED:	Non-critical errors and warning notices.
