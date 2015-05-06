@@ -214,6 +214,7 @@ you'll need to back it up before you upgrade your Bootstrap plugin.
 
 * UPDATED:	Twitter Bootstrap library to v3.3.4
 * UPDATED:	Normalize to v3.0.2
+* UPDATED:	LESS PHP compiler to latest 1.7.0.3
 * FIX:      Small fixes to code.
 
 = 3.2.0-4 =
