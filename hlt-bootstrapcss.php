@@ -9,7 +9,7 @@ Author URI: http://icwp.io/v
 */
 
 /**
- * Copyright (c) 2014 iControlWP <support@icontrolwp.com>
+ * Copyright (c) 2016 iControlWP <support@icontrolwp.com>
  * All rights reserved.
  *
  * "WordPress Twitter Bootstrap CSS" (formerly "WordPress Bootstrap CSS") is
