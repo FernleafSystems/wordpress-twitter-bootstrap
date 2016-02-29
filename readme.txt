@@ -149,6 +149,13 @@ the other plugin installed).
 
 Otherwise, consult your caching program's documentation.
 
+= How can I remove the debug HTML comment? =
+
+We add a debug HTML comment right before the Bootstrap file(s) are inserted. This helps debug frontend issues with the
+plugin. You can get rid of this easily using any sort of minify plugin or using a line of code in your theme functions.php
+
+`add_filter( 'icwp_wptb_show_debug_comment', '__return_false' );`
+
 = Do you make any other plugins? =
 
 We also created the [Multiple WordPress Site Manager (iControlWP) ](http://icwp.io/3) to make it easier for you manage all your WordPress sites in one place.
@@ -209,6 +216,10 @@ you should be aware of before you upgrade!
 * Provide better upgrade support for customized Variable.less files. Currently if you've customized your Variables.less file manually
 you'll need to back it up before you upgrade your Bootstrap plugin.
 * Allow for a free entry LESS section for users to add their own completely custom variables.
+
+= 3.3.6-1 =
+
+* ADDED:	WordPress filter to remove HTML debug comment as desired.
 
 = 3.3.6-0 =
 
