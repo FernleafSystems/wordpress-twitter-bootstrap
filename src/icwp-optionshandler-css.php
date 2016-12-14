@@ -45,8 +45,7 @@ class ICWP_WPTB_FeatureHandler_Css extends ICWP_WPTB_FeatureHandler_Base {
 		if ( !parent::handleFormSubmit() ) {
 			return false;
 		}
-
-		$this->maybeClearIncludesCache( true );
+		$this->clearIncludesCache();
 	}
 
 	/**
@@ -62,11 +61,42 @@ class ICWP_WPTB_FeatureHandler_Css extends ICWP_WPTB_FeatureHandler_Base {
 	public function getNonUiOptions() {
 		$aNonUiOptions = array(
 			'feedback_admin_notice',
-			'includes_list',
-			'css_cache_expire',
 			'inc_responsive_css'
 		);
 		return $aNonUiOptions;
+	}
+
+	/**
+	 * Clears the CSS Includes cache if the time has expired.
+	 */
+	public function clearIncludesCache() {
+		$this->loadWpFunctionsProcessor()->deleteTransient( $this->doPluginPrefix( 'includes_list' ) );
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getIncludesCache() {
+		$oCache = $this->loadWpFunctionsProcessor()->getTransient( $this->doPluginPrefix( 'includes_list' ) );
+		$sKey = is_ssl() ? 'ssl' : 'no_ssl';
+		if ( !empty( $oCache ) && is_object( $oCache ) && !empty( $oCache->{$sKey} ) && is_array( $oCache->{$sKey} ) ) {
+			return $oCache->{$sKey};
+		}
+		return array();
+	}
+
+	/**
+	 * @param array $aIncludesList
+	 */
+	public function updateIncludesCache( $aIncludesList = array() ) {
+		$oCache = new stdClass();
+		$sKey = is_ssl() ? 'ssl' : 'no_ssl';
+		$oCache->{$sKey} = $aIncludesList;
+		$this->loadWpFunctionsProcessor()->setTransient(
+			$this->doPluginPrefix( 'includes_list' ),
+			$oCache,
+			DAY_IN_SECONDS
+		);
 	}
 
 	public function getOptionsDefinitions() {
@@ -279,22 +309,11 @@ class ICWP_WPTB_FeatureHandler_Css extends ICWP_WPTB_FeatureHandler_Base {
 				$this->setOpt( 'customcss_url', '' );
 			}
 		}
-
-		$this->maybeClearIncludesCache();
-	}
-
-	/**
-	 * Clears the CSS Includes cache if the time has expired.
-	 */
-	public function maybeClearIncludesCache( $infForce = false ) {
-		if ( $infForce || time() - $this->getOpt( 'css_cache_expire' ) > self::CssCacheExpire ) {
-			$this->setOpt( 'includes_list', false ); //clear the cached css list
-		}
 	}
 
 	public function updateHandler() {
 		if ( $this->getIsUpgrading() ) {
-			$this->maybeClearIncludesCache( true );
+			$this->clearIncludesCache();
 		}
 
 		if ( version_compare( $this->getVersion(), '3.2.0', '<' ) ) {

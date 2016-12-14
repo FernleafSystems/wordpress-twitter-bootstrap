@@ -88,15 +88,10 @@ if ( !class_exists('ICWP_WPTB_WpFunctions_V4') ):
 
 		/**
 		 * @param string $sKey
-		 * @return object
+		 * @return mixed
 		 */
-		protected function getTransient( $sKey ) {
-
+		public function getTransient( $sKey ) {
 			// TODO: Handle multisite
-
-			if ( version_compare( $this->getWordpressVersion(), '2.7.9', '<=' ) ) {
-				return get_option( $sKey );
-			}
 
 			if ( function_exists( 'get_site_transient' ) ) {
 				$mResult = get_site_transient( $sKey );
@@ -104,14 +99,47 @@ if ( !class_exists('ICWP_WPTB_WpFunctions_V4') ):
 					remove_all_filters( 'pre_site_transient_'.$sKey );
 					$mResult = get_site_transient( $sKey );
 				}
-				return $mResult;
 			}
-
-			if ( version_compare( $this->getWordpressVersion(), '2.9.9', '<=' ) ) {
-				return apply_filters( 'transient_'.$sKey, get_option( '_transient_'.$sKey ) );
+			else if ( version_compare( $this->getWordpressVersion(), '2.7.9', '<=' ) ) {
+				$mResult = get_option( $sKey );
 			}
+			else if ( version_compare( $this->getWordpressVersion(), '2.9.9', '<=' ) ) {
+				$mResult = apply_filters( 'transient_'.$sKey, get_option( '_transient_'.$sKey ) );
+			}
+			else {
+				$mResult = apply_filters( 'site_transient_'.$sKey, get_option( '_site_transient_'.$sKey ) );
+			}
+			return $mResult;
+		}
 
-			return apply_filters( 'site_transient_'.$sKey, get_option( '_site_transient_'.$sKey ) );
+		/**
+		 * @param string $sKey
+		 * @param mixed $mValue
+		 * @param int $nExpire
+		 * @return bool
+		 */
+		public function setTransient( $sKey, $mValue, $nExpire = 0 ) {
+			return set_site_transient( $sKey, $mValue, $nExpire );
+		}
+
+		/**
+		 * @param $sKey
+		 * @return bool
+		 */
+		public function deleteTransient( $sKey ) {
+			if ( version_compare( $this->getWordpressVersion(), '2.7.9', '<=' ) ) {
+				$bResult = delete_option( $sKey );
+			}
+			else if ( function_exists( 'delete_site_transient' ) ) {
+				$bResult = delete_site_transient( $sKey );
+			}
+			else if ( version_compare( $this->getWordpressVersion(), '2.9.9', '<=' ) ) {
+				$bResult = delete_option( '_transient_'.$sKey );
+			}
+			else {
+				$bResult = delete_option( '_site_transient_'.$sKey );
+			}
+			return $bResult;
 		}
 
 		/**
