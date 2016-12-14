@@ -3,8 +3,8 @@ Contributors: paultgoodchild, dlgoodchild
 Donate link: http://icwp.io/q
 Tags: CSS, WordPress Admin, Twitter Bootstrap, Twitter Bootstrap Javascript, Bootstrap CSS, WordPress Bootstrap, normalize, reset, YUI
 Requires at least: 3.2.0
-Tested up to: 4.6
-Stable tag: 3.3.7-0
+Tested up to: 4.7
+Stable tag: 3.3.7-1
 
 WordPress Twitter Bootstrap CSS lets you include the latest Twitter Bootstrap CSS and Javascript libraries in your WordPress site.
 
@@ -216,6 +216,12 @@ you should be aware of before you upgrade!
 * Provide better upgrade support for customized Variable.less files. Currently if you've customized your Variables.less file manually
 you'll need to back it up before you upgrade your Bootstrap plugin.
 * Allow for a free entry LESS section for users to add their own completely custom variables.
+
+= 3.3.7-1 =
+
+* UPDATED:	Normalize.css to 5.0.0
+* FIXED:	Asset caching to handle a switch between ssl and non-ssl a bit better
+* FIXED:	Mixed content for ssl sites
 
 = 3.3.7-0 =
 
