@@ -105,13 +105,12 @@ class ICWP_WPTB_CssProcessor_V1 extends ICWP_WPTB_BaseProcessor {
 	}
 
 	public function doEnqueueResetCss() {
-		$oWp = $this->loadWpFunctionsProcessor();
 		if ( is_admin()
 			|| !$this->getIsOption( 'enq_using_wordpress', 'Y' )
-			|| in_array( $oWp->getCurrentPage(), array( 'wp-login.php', 'wp-register.php') )
+			|| in_array( $this->loadWpFunctionsProcessor()->getCurrentPage(), array( 'wp-login.php', 'wp-register.php') )
 			|| isset( $_GET['thesis_editor'] )
 		) {
-			return true;
+			return;
 		}
 
 		$aIncludesList = $this->getCssIncludeUrls();
@@ -161,15 +160,15 @@ class ICWP_WPTB_CssProcessor_V1 extends ICWP_WPTB_BaseProcessor {
 	 * @return array
 	 */
 	protected function getCssIncludeUrls() {
+		/** @var ICWP_WPTB_FeatureHandler_Css $oFO */
+		$oFO = $this->getFeatureOptions();
 
 		// We've cached the inclusions list so we don't work it out every page load.
-		$aIncludesList = $this->getOption( 'includes_list', null );
+		$aIncludesList = $oFO->getIncludesCache();
 		if ( !empty( $aIncludesList ) && is_array( $aIncludesList ) ) {
 			return $aIncludesList;
 		}
-		else {
-			$aIncludesList = array();
-		}
+		$aIncludesList = array();
 
 		// An unsupported option, so just return the custom CSS.
 		$aPossibleIncludeOptions = array( 'twitter', 'twitter-legacy', 'twitter-less', 'yahoo-reset', 'yahoo-reset-3', 'normalize' );
@@ -203,22 +202,19 @@ class ICWP_WPTB_CssProcessor_V1 extends ICWP_WPTB_BaseProcessor {
 		}
 
 		// cache it
-		$this->updateIncludesCache( $aIncludesList );
-
+		$oFO->updateIncludesCache( $aIncludesList );
 		return $aIncludesList;
-	}
-
-	protected function updateIncludesCache( $aIncludesList = false ) {
-		$this->oFeatureOptions->setOpt( 'includes_list', $aIncludesList ); //update our cached list
-		$this->oFeatureOptions->setOpt( 'css_cache_expire', time() );
 	}
 
 	/**
 	 * Depending on the configuration options set, will provide an array of the Twitter URLs to be included
 	 *
-	 * @return Array
+	 * @return array
 	 */
 	protected function getTwitterCssUrls() {
+		/** @var ICWP_WPTB_FeatureHandler_Css $oFO */
+		$oFO = $this->getFeatureOptions();
+
 		$oWpFs = $this->loadFileSystemProcessor();
 		$sCssFileExtension = $this->getIsOption( 'use_minified_css', 'Y' )? '.min.css' : '.css';
 		$aUrls = array();
@@ -236,7 +232,7 @@ class ICWP_WPTB_CssProcessor_V1 extends ICWP_WPTB_BaseProcessor {
 		// Determine the Twitter URL stem based on local or if CDNJS selected
 		if ( $this->getIsOption( 'use_cdnjs', 'Y' ) ) {
 			$sTwitterCdnStem = '%stwitter-bootstrap/%s/css/bootstrap%s';
-			$sTwitterCdnStem = sprintf( $sTwitterCdnStem, self::CdnjsStem, $this->oFeatureOptions->getTwitterBootstrapVersion(), $sCssFileExtension );
+			$sTwitterCdnStem = sprintf( $sTwitterCdnStem, self::CdnjsStem, $oFO->getTwitterBootstrapVersion(), $sCssFileExtension );
 			if ( $oWpFs->getIsUrlValid( 'http:'.$sTwitterCdnStem ) ) {
 				$sTwitterStem = $sTwitterCdnStem;
 			}
@@ -248,7 +244,7 @@ class ICWP_WPTB_CssProcessor_V1 extends ICWP_WPTB_BaseProcessor {
 			$sTwitterStem = $this->getBootstrapUrl( 'css/bootstrap-responsive' ).$sCssFileExtension; // default is to serve it "local"
 			if ( $this->getIsOption( 'use_cdnjs', 'Y' ) ) {
 				$sTwitterCdnStem = '%stwitter-bootstrap/%s/css/bootstrap-responsive%s';
-				$sTwitterCdnStem = sprintf( $sTwitterCdnStem, self::CdnjsStem, $this->oFeatureOptions->getTwitterBootstrapVersion(), $sCssFileExtension );
+				$sTwitterCdnStem = sprintf( $sTwitterCdnStem, self::CdnjsStem, $oFO->getTwitterBootstrapVersion(), $sCssFileExtension );
 				if ( $oWpFs->getIsUrlValid( 'http:'.$sTwitterCdnStem ) ) {
 					$sTwitterStem = $sTwitterCdnStem;
 				}
@@ -271,6 +267,8 @@ class ICWP_WPTB_CssProcessor_V1 extends ICWP_WPTB_BaseProcessor {
 	 * Enqueue Javascript scripts according to the plugin options.
 	 */
 	public function doEnqueueScripts() {
+		/** @var ICWP_WPTB_FeatureHandler_Css $oFO */
+		$oFO = $this->getFeatureOptions();
 
 		$fJsInFooter = ($this->getIsOption( 'js_head', 'Y' ) )? false : true ;
 
@@ -283,7 +281,7 @@ class ICWP_WPTB_CssProcessor_V1 extends ICWP_WPTB_BaseProcessor {
 				//Since version 2.3.0, now changed to:
 				//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap.min.js
 				$sUrlBootstrapJs = self::CdnjsStem.'twitter-bootstrap/%s/js/bootstrap'.$sExtension;
-				$sUrlBootstrapJs = sprintf( $sUrlBootstrapJs, $this->oFeatureOptions->getTwitterBootstrapVersion() );
+				$sUrlBootstrapJs = sprintf( $sUrlBootstrapJs, $oFO->getTwitterBootstrapVersion() );
 			}
 			else {
 				$sUrlBootstrapJs = $this->getBootstrapUrl( 'js/bootstrap'.$sExtension );
@@ -297,13 +295,13 @@ class ICWP_WPTB_CssProcessor_V1 extends ICWP_WPTB_BaseProcessor {
 			}
 
 			wp_enqueue_script( 'jquery' );
-			wp_register_script( 'bootstrap-all-min', $sUrlBootstrapJs, array('jquery'), $this->oFeatureOptions->getVersion(), $fJsInFooter );
+			wp_register_script( 'bootstrap-all-min', $sUrlBootstrapJs, array('jquery'), $oFO->getVersion(), $fJsInFooter );
 			wp_enqueue_script( 'bootstrap-all-min' );
 		}
 
 		if ( $this->getIsOption( 'prettify', 'Y' ) ) {
 			$sUrl = $this->getJsUrl( 'google-code-prettify/prettify.js' );
-			wp_register_script( 'prettify_script', $sUrl, false, $this->oFeatureOptions->getVersion(), $fJsInFooter );
+			wp_register_script( 'prettify_script', $sUrl, false, $oFO->getVersion(), $fJsInFooter );
 			wp_enqueue_script( 'prettify_script' );
 		}
 	}

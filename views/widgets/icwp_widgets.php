@@ -19,7 +19,7 @@ function getWidgetIframeHtml( $insSnippet ) {
 	}
 	
 	return '<iframe name="'.$sIframeName.'"
-		src="http://www.icontrolwp.com/custom/remote/plugins/hlt-bootstrapcss-plugin-widgets.php?'.$sSubPageNow.'snippet='.$insSnippet.'"
+		src="//www.icontrolwp.com/custom/remote/plugins/hlt-bootstrapcss-plugin-widgets.php?'.$sSubPageNow.'snippet='.$insSnippet.'"
 		width="'.$sWidth.'" height="'.$sHeight.'" frameborder="0" scrolling="no" style="background-color:'.$sBackgroundColor.';" ></iframe>
 	';
 	

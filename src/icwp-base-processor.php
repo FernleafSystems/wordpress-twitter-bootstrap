@@ -45,6 +45,13 @@ if ( !class_exists('ICWP_WPTB_BaseProcessor_V3') ):
 		}
 
 		/**
+		 * @return ICWP_WPTB_FeatureHandler_Base
+		 */
+		protected function getFeatureOptions() {
+			return $this->oFeatureOptions;
+		}
+
+		/**
 		 * Resets the object values to be re-used anew
 		 */
 		public function reset() {
