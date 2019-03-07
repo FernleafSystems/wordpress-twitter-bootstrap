@@ -1,11 +1,11 @@
 <?php
 /*
-Plugin Name: WordPress Twitter Bootstrap CSS
-Plugin URI: http://www.icontrolwp.com/wordpress-twitter-bootstrap-css-plugin-home/
+Plugin Name: Twitter Bootstrap for WordPress
+Plugin URI: https://www.icontrolwp.com/wordpress-twitter-bootstrap-css-plugin-home/
 Description: Link Twitter Bootstrap CSS and Javascript files before all others regardless of your theme.
-Version: 3.3.7-1
-Author: iControlWP
-Author URI: http://icwp.io/v
+Version: 3.4.1-0
+Author: One Dollar Plugin
+Author URI: https://icwp.io/bv
 */
 
 /**
@@ -63,7 +63,7 @@ class ICWP_Wordpress_Twitter_Bootstrap_Plugin extends ICWP_Wordpress_Plugin {
 			'css',
 			'less'
 		);
-		self::$sVersion = '3.3.7-1';
+		self::$sVersion = '3.4.1-0';
 		self::$sPluginSlug = 'wptb';
 		self::$sHumanName = 'WordPress Twitter Bootstrap';
 		self::$sMenuTitleName = 'Twitter Bootstrap';
