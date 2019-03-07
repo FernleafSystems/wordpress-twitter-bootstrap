@@ -22,11 +22,11 @@ if ( !class_exists('ICWP_WPTB_BaseProcessor_V3') ):
 		protected $m_aLogMessages;
 
 		/**
-		 * @var long
+		 * @var int
 		 */
 		protected static $nRequestIp;
 		/**
-		 * @var long
+		 * @var int
 		 */
 		protected static $nRequestPostId;
 		/**
@@ -91,7 +91,7 @@ if ( !class_exists('ICWP_WPTB_BaseProcessor_V3') ):
 		}
 
 		/**
-		 * @return bool|long
+		 * @return bool|int
 		 */
 		public function getRequestPostId() {
 			if ( !isset( self::$nRequestPostId ) ) {

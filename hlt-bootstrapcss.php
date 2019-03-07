@@ -1,15 +1,15 @@
 <?php
 /*
-Plugin Name: WordPress Twitter Bootstrap CSS
-Plugin URI: http://www.icontrolwp.com/wordpress-twitter-bootstrap-css-plugin-home/
+Plugin Name: Twitter Bootstrap for WordPress
+Plugin URI: https://www.icontrolwp.com/wordpress-twitter-bootstrap-css-plugin-home/
 Description: Link Twitter Bootstrap CSS and Javascript files before all others regardless of your theme.
-Version: 3.3.7-1
-Author: iControlWP
-Author URI: http://icwp.io/v
+Version: 3.4.1-0
+Author: One Dollar Plugin
+Author URI: https://icwp.io/bv
 */
 
 /**
- * Copyright (c) 2016 iControlWP <support@icontrolwp.com>
+ * Copyright (c) 2019 One Dollar Plugin <support@onedollarplugin.com>
  * All rights reserved.
  *
  * "WordPress Twitter Bootstrap CSS" (formerly "WordPress Bootstrap CSS") is
@@ -29,48 +29,48 @@ Author URI: http://icwp.io/v
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-require_once( dirname(__FILE__).'/src/icwp-base.php' );
+if ( class_exists( 'ICWP_Wordpress_Twitter_Bootstrap_Plugin' ) ) {
+	return;
+}
 
-if ( !class_exists('ICWP_Wordpress_Twitter_Bootstrap_Plugin') ):
+require_once( dirname( __FILE__ ).'/src/icwp-base.php' );
 
-	class ICWP_Wordpress_Twitter_Bootstrap_Plugin extends ICWP_Wordpress_Plugin {
+class ICWP_Wordpress_Twitter_Bootstrap_Plugin extends ICWP_Wordpress_Plugin {
 
-		/**
-		 * @var ICWP_Wordpress_Twitter_Bootstrap_Plugin
-		 */
-		public static $oInstance;
+	/**
+	 * @var ICWP_Wordpress_Twitter_Bootstrap_Plugin
+	 */
+	public static $oInstance;
 
-		/**
-		 * @return ICWP_Wordpress_Twitter_Bootstrap_Plugin
-		 */
-		public static function GetInstance() {
-			if ( !isset( self::$oInstance ) ) {
-				self::$oInstance = new self();
-			}
-			return self::$oInstance;
+	/**
+	 * @return ICWP_Wordpress_Twitter_Bootstrap_Plugin
+	 */
+	public static function GetInstance() {
+		if ( !isset( self::$oInstance ) ) {
+			self::$oInstance = new self();
 		}
-
-		/**
-		 */
-		protected function __construct() {
-			if ( empty( self::$sRootFile ) ) {
-				self::$sRootFile = __FILE__;
-			}
-			self::$aFeatures = array(
-				'plugin',
-				'css',
-				'less'
-			);
-			self::$sVersion = '3.3.7-1';
-			self::$sPluginSlug = 'wptb';
-			self::$sHumanName = 'WordPress Twitter Bootstrap';
-			self::$sMenuTitleName = 'Twitter Bootstrap';
-			self::$sTextDomain = 'wordpress-bootstrap-css';
-			self::$fLoggingEnabled = false;
-		}
+		return self::$oInstance;
 	}
 
-endif;
+	/**
+	 */
+	protected function __construct() {
+		if ( empty( self::$sRootFile ) ) {
+			self::$sRootFile = __FILE__;
+		}
+		self::$aFeatures = array(
+			'plugin',
+			'css',
+			'less'
+		);
+		self::$sVersion = '3.4.1-0';
+		self::$sPluginSlug = 'wptb';
+		self::$sHumanName = 'WordPress Twitter Bootstrap';
+		self::$sMenuTitleName = 'Twitter Bootstrap';
+		self::$sTextDomain = 'wordpress-bootstrap-css';
+		self::$fLoggingEnabled = false;
+	}
+}
 
 if ( !function_exists( '_wptb_e' ) ) {
 	function _wptb_e( $insStr ) {
@@ -83,5 +83,5 @@ if ( !function_exists( '_wptb__' ) ) {
 	}
 }
 
-require_once( dirname(__FILE__).'/src/icwp-wptb-main.php' );
-$oHLT_BootstrapCss = new ICWP_WPTB_BootstrapCss(  ICWP_Wordpress_Twitter_Bootstrap_Plugin::GetInstance() );
+require_once( dirname( __FILE__ ).'/src/icwp-wptb-main.php' );
+$oHLT_BootstrapCss = new ICWP_WPTB_BootstrapCss( ICWP_Wordpress_Twitter_Bootstrap_Plugin::GetInstance() );
