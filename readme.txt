@@ -1,5 +1,5 @@
 === Plugin Name ===
-Contributors: paultgoodchild, dlgoodchild
+Contributors: paultgoodchild
 Donate link: http://icwp.io/q
 Tags: CSS, WordPress Admin, Twitter Bootstrap, Twitter Bootstrap Javascript, Bootstrap CSS, WordPress Bootstrap, normalize, reset, YUI
 Requires at least: 3.2.0
@@ -216,6 +216,11 @@ you should be aware of before you upgrade!
 * Provide better upgrade support for customized Variable.less files. Currently if you've customized your Variables.less file manually
 you'll need to back it up before you upgrade your Bootstrap plugin.
 * Allow for a free entry LESS section for users to add their own completely custom variables.
+
+= 3.4.1 - Current Release =
+*Released: 8th March, 2019*
+
+* **(v.0)**  UPDATED:	Bootstrap Library to v3.4.1 (addresses some security vulnerabilities and bugs)
 
 = 3.3.7-1 =
 
