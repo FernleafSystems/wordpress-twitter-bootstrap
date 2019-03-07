@@ -7,7 +7,7 @@ class ICWP_WPTB_FeatureHandler_Css extends ICWP_WPTB_FeatureHandler_Base {
 
 	const TwitterVersion			= '3.4.1'; //should reflect the Bootstrap version folder name
 	const TwitterVersionLegacy		= '2.3.2'; //should reflect the Bootstrap version folder name
-	const NormalizeVersion			= '4.4.1';
+	const NormalizeVersion			= '8.0.1';
 	const YUI3Version				= '3.10.0';
 
 	/**
